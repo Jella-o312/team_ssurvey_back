@@ -70,40 +70,43 @@ public class SurveyController {
 	}
 	
 	
-	// 결과보기 눌렀을때 요청할 get endpoint 입니다. 
-//	@GetMapping("/surveyQ/{surveyNo}")
-//	public ResponseEntity<?> getSurveyQ(@PathVariable Integer surveyNo) {
-//		
-//		List<SurveyQ> surveyQs = surveyService.getSurveyQ(surveyNo);
-		// 이 위에 형식으로 동일하게 받아와야함
+	@GetMapping("/surveyResult/{surveyNo}")
+	public ResponseEntity<?> getSurveyResult(@PathVariable Integer surveyNo) {
+	    List<SurveyQ> surveyQs = surveyService.getSurveyQ(surveyNo);
+
+	    List<List<String>> allresult = new ArrayList<>();
+
+	    for (SurveyQ onesurveyQ : surveyQs) {
+	        Integer sqNo = onesurveyQ.getSqNo();
+	        List<String> options = onesurveyQ.getOption();
+	        List<String> textList = surveyService.textAnswer(sqNo);
+
+	        if ("객관식".equals(onesurveyQ.getSqType())) {
+	            List<String> countAnswers = new ArrayList<>();
+
+	            for (String answer : options) {
+	                // surveyService.countAnswer 메서드를 호출하여 count 값을 얻음
+	                int countAnswer = surveyService.countAnswer(sqNo, answer);
+
+	                // 얻은 count 값을 리스트에 추가
+	                countAnswers.add(String.valueOf(countAnswer));
+	            }
+
+	            allresult.add(countAnswers);
+	            
+	        } else {
+	            allresult.add(textList);
+	        }
+	    }
+
+//	    System.out.println(allresult);
+
+	    return new ResponseEntity<>(allresult, HttpStatus.OK);
+	}
 	
-//	for(SurveyQ onesurveyQ : surveyQs) {
-//		Integer sqNo = onesurveyQ.getSqNo();
-//		List<String> options =  onesurveyQ.getOption(); // 객관식에서 사용됨
-//		List<String> textList = surveyService.textAnswer(sqNo);	// 단답, 장문에서 사용됨
-//			
-//		System.out.println(textList);
-//		
-//		
-//		if(onesurveyQ.getSqType() == "객관식") {
-//			
-//			int[] countAnswers = new int[options.size()];
-//
-//			for (int i = 0; i < options.size(); i++) {
-//			    String answer = options.get(i);
-//			    
-//			    // surveyService.countAnswer 메서드를 호출하여 count 값을 얻음
-//			    int countAnswer = surveyService.countAnswer(sqNo, answer);
-//			    
-//			    // 얻은 count 값을 배열에 저장
-//			    countAnswers[i] = countAnswer;
-//			}
-//		
-//		}else {
-//			
-//	
-//		}
-//		
-//	}
+	
+
+	
+	
 	
 }
