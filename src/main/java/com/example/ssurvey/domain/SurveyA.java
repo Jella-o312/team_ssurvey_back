@@ -1,9 +1,6 @@
 package com.example.ssurvey.domain;
 
-import java.util.List;
-
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -36,7 +33,7 @@ public class SurveyA {
 	private User user;
 	
 
-	@ElementCollection
-	@Column(name = "answers", length = 1000)
-	private List<String> answer; // 값 들어오는거 확인하고 문제 있을 시 수정 필요
+	
+	@Column(length = 1000)
+	private String answer; // 값 들어오는거 확인하고 문제 있을 시 수정 필요
 }

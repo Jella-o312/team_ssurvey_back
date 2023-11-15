@@ -1,5 +1,7 @@
 package com.example.ssurvey.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +18,7 @@ import com.example.ssurvey.domain.SurveyA;
 import com.example.ssurvey.domain.SurveyQ;
 import com.example.ssurvey.service.SurveyService;
 
-import oracle.jdbc.proxy.annotation.Post;
+
 
 @RestController
 public class SurveyController {
@@ -37,25 +39,15 @@ public class SurveyController {
 		
 		List<SurveyQ> surveyQs = surveyService.getSurveyQ(surveyNo);
 		
-		int index = 0;
-		
-		for(SurveyQ onesurveyQ : surveyQs) {
-			Integer num = onesurveyQ.getSqNo();
-			List<SurveyA> answer = surveyService.aaa(num); 
-			for(SurveyA onea : answer) {
-//				onea.getAnswer();
-				System.out.println("@@@@@" + onea.getAnswer());
-			}
-//			System.out.println("인덱스" + index + " : " +surveyService.aaa(num).get().getAnswer());
-			index++;
-		}
-		
 		
 		return new ResponseEntity<>(surveyQs, HttpStatus.OK);
 		
 	}
 	 
 	 
+	
+	
+	
 	
 	@PostMapping("/addSurvey")
 	public ResponseEntity<?> addSurvey(@RequestBody List<SurveyQ> surveyQ, String surTitle, String surveyCategory, String username) {
@@ -76,5 +68,45 @@ public class SurveyController {
 		return new ResponseEntity<>("설문 답변 완료", HttpStatus.OK);
 		
 	}
+	
+	
+	@GetMapping("/surveyResult/{surveyNo}")
+	public ResponseEntity<?> getSurveyResult(@PathVariable Integer surveyNo) {
+	    List<SurveyQ> surveyQs = surveyService.getSurveyQ(surveyNo);
+
+	    List<List<String>> allresult = new ArrayList<>();
+
+	    for (SurveyQ onesurveyQ : surveyQs) {
+	        Integer sqNo = onesurveyQ.getSqNo();
+	        List<String> options = onesurveyQ.getOption();
+	        List<String> textList = surveyService.textAnswer(sqNo);
+
+	        if ("객관식".equals(onesurveyQ.getSqType())) {
+	            List<String> countAnswers = new ArrayList<>();
+
+	            for (String answer : options) {
+	                // surveyService.countAnswer 메서드를 호출하여 count 값을 얻음
+	                int countAnswer = surveyService.countAnswer(sqNo, answer);
+
+	                // 얻은 count 값을 리스트에 추가
+	                countAnswers.add(String.valueOf(countAnswer));
+	            }
+
+	            allresult.add(countAnswers);
+	            
+	        } else {
+	            allresult.add(textList);
+	        }
+	    }
+
+//	    System.out.println(allresult);
+
+	    return new ResponseEntity<>(allresult, HttpStatus.OK);
+	}
+	
+	
+
+	
+	
 	
 }

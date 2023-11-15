@@ -75,6 +75,15 @@ public class SurveyService {
 		return surveyARepository.findAllBySqNo(num);
 	}
 	
+	public int countAnswer (Integer sqNo, String answer) {
+		
+		return surveyARepository.countBySqNoAndAnswer(sqNo, answer);
+	}
+	
+	public List<String> textAnswer (Integer sqNo){
+		 return surveyARepository.findAnswersBySqNo(sqNo);
+	}
+	
 }
 
 
