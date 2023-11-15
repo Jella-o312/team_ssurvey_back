@@ -11,6 +11,7 @@ public class WebConfig implements WebMvcConfigurer {
 	public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping("/**")
 		.allowedOrigins("http://localhost:3000")  // 리액트 서버 , http://localhost:3000 여기에 대한 요청은 다 허용해줘라
+		.allowedOrigins("https://lastpro-3f1fc.web.app")
 		.allowedMethods("GET", "POST", "DELETE", "PUT");
 	}
 
