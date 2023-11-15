@@ -1,7 +1,10 @@
 package com.example.ssurvey.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.example.ssurvey.domain.Survey;
 import com.example.ssurvey.domain.SurveyA;
 import com.example.ssurvey.domain.SurveyQ;
@@ -10,9 +13,6 @@ import com.example.ssurvey.repository.SurveyARepository;
 import com.example.ssurvey.repository.SurveyQRepository;
 import com.example.ssurvey.repository.SurveyRepository;
 import com.example.ssurvey.repository.UserRepository;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SurveyService {
