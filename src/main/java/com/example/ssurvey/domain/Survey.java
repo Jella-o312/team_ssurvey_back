@@ -14,7 +14,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -32,6 +31,9 @@ public class Survey {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Survey_SEQ_GENERATOR")
 	private Integer surveyNo;
+	
+	@Column(length = 50)
+	private String surTitle;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "userNo")
@@ -56,12 +58,16 @@ public class Survey {
 	@Column(length = 200)
 	private int surveyCount;
 
+
 	@OneToMany(mappedBy = "survey",fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-	@OrderBy("fbrCreateDate desc") //댓글 작성 일을 기준으로 내림차순
+//	@OrderBy("fbrCreateDate desc") //댓글 작성 일을 기준으로 내림차순
 	private List<SurveyReply> surveyReplyList;
+
 	
-	@Column(length = 50)
-	private String surveyTitle;
+//	@ElementCollection
+//	@Column(name = "sssurveyQ")
+//	@OneToMany(mappedBy = "survey",fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+//	private Set<SurveyQ> surveyQ;
 }
 
 

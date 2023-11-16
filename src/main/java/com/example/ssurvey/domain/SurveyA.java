@@ -24,12 +24,9 @@ public class SurveyA {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SurveyA_SEQ_GENERATOR")
 	private Integer saNo;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "sqNo")
-	private SurveyQ surveyQ;
+	@Column(length = 1000)
+	private Integer sqNo;
 	
-	@Column(length = 500)
-	private String saAnswer;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "userNo")
@@ -37,4 +34,6 @@ public class SurveyA {
 	
 
 	
+	@Column(length = 1000)
+	private String answer; // 값 들어오는거 확인하고 문제 있을 시 수정 필요
 }
