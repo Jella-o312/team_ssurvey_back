@@ -131,7 +131,7 @@ public class UserService {
 		MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
 	    body.add("grant_type", "authorization_code");
 	    body.add("client_id", "e6b21a4273796d922a495af28898d205"); // 각자 rest api key
-	    body.add("redirect_uri", "https://lastpro-3f1fc.web.app/oauth/kakao");
+	    body.add("redirect_uri", "https://ssurvey.web.app/oauth/kakao");
 	    body.add("code", code);
 	    
 	    HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(body,header);
